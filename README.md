@@ -84,4 +84,53 @@ credit-default-ml/
   "status": "healthy",
   "model_v1_loaded": true,
   "model_v2_loaded": true
-}  
+} 
+```
+## Получение прогноза
+
+**Запрос:**
+   ```bash
+   curl -X POST http://localhost:5000/predict \
+  -H "Content-Type: application/json" \
+  -d @test_request.json
+   ```
+**Пример данных (test_request.json):**
+```json
+{
+  "LIMIT_BAL": 20000,
+  "SEX": 2,
+  "EDUCATION": 2,
+  "MARRIAGE": 1,
+  "AGE": 24,
+  "PAY_0": 2,
+  "PAY_2": 2,
+  "PAY_3": -1,
+  "PAY_4": -1,
+  "PAY_5": -2,
+  "PAY_6": -2,
+  "BILL_AMT1": 3913,
+  "BILL_AMT2": 3102,
+  "BILL_AMT3": 689,
+  "BILL_AMT4": 0,
+  "BILL_AMT5": 0,
+  "BILL_AMT6": 0,
+  "PAY_AMT1": 0,
+  "PAY_AMT2": 689,
+  "PAY_AMT3": 0,
+  "PAY_AMT4": 0,
+  "PAY_AMT5": 0,
+  "PAY_AMT6": 0
+}
+```
+**Ответ**
+```json
+{
+  "prediction": 0,
+  "probability": 0.05,
+  "model_version": "v1"
+}
+```
+**Поля ответа:**
+- `prediction`: 0 (не дефолт) или 1 (дефолт)
+- `probability`: вероятность дефолта от 0 до 1
+- `model_version`: версия модели (v1 или v2), выбрана случайно для A/B-теста
