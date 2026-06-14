@@ -44,3 +44,43 @@ credit-default-ml/
 2. **Установить зависимости:**
    ```bash
    pip install -r requirements.txt 
+
+3. **Обучить модели:**
+   ```bash
+   python models/train_model.py
+
+Скрипт обучит две модели (Random Forest v1 и Logistic Regression v2) и сохранит их в папке models/.
+
+4. **Запустить сервис:**
+   ```bash
+   python src/app/api.py
+
+   Сервис запустится на порту 5000.
+
+### Docker
+
+1. **Сборка образа:**
+   ```bash
+   docker build -t credit-default-ml:v1 .
+   
+2. **Запуск контейнера:**
+   ```bash
+   docker run -p 5000:5000 --name ml-service credit-default-ml:v1
+   
+3. **Или через Docker Compose (с мониторингом):**
+   ```bash
+
+## Примеры запросов к API
+## Health check (проверка работоспособности)
+
+**Запрос:**
+   ```bash
+   curl http://localhost:5000/health
+
+**Ответ**
+   ```json
+   {
+  "status": "healthy",
+  "model_v1_loaded": true,
+  "model_v2_loaded": true
+   }
