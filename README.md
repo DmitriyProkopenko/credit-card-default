@@ -134,3 +134,43 @@ credit-default-ml/
 - `prediction`: 0 (не дефолт) или 1 (дефолт)
 - `probability`: вероятность дефолта от 0 до 1
 - `model_version`: версия модели (v1 или v2), выбрана случайно для A/B-теста
+
+## Docker Hub
+
+- Образ собран локально и протестирован. Для загрузки в Docker Hub требуется авторизация. В моем случае произошла ошибка:
+
+<img width="1319" height="1038" alt="авторизация docker - неудачно" src="https://github.com/user-attachments/assets/ce5fe7e5-36d2-46c0-a55e-0c63c31cedd1" />
+
+
+**Команды для загрузки:**
+```bash
+docker login
+docker tag credit-default-ml:v1 YOUR_USERNAME/credit-default-ml:v1
+docker push YOUR_USERNAME/credit-default-ml:v1
+```
+
+## A/B-тестирование
+
+Сервис реализует A/B-тестирование двух моделей:
+- **v1**: Random Forest Classifier
+- **v2**: Logistic Regression
+Подробный план A/B-теста: **AB_TEST_PLAN.md**
+
+## Архитектура и MLOps
+
+Подробное описание архитектурных решений, концептов MLOps (DVC, MLflow, RabbitMQ, ELK) и бизнес-метрик: **ARCHITECTURE.md**
+
+### Бизнес-метрики
+1. **Снижение ожидаемых финансовых потерь (Expected Loss Reduction):**
+   - Рассчитывается как разница между суммой выданных кредитов без дефолта и с дефолтом
+   - Модель должна максимизировать эту разницу
+2. **Approval Rate при фиксированном уровне риска:**
+   - Доля одобренных заявок при условии, что Precision не падает ниже заданного порога (например, 85%)
+
+### Дополнительная информация
+
+***ONNX-ML конвертация***
+- Модель может быть конвертирована в формат ONNX с помощью библиотеки skl2onnx для оптимизации инференса и кроссплатформенности.
+
+***uWSGI + NGINX***
+- В production-среде Gunicorn/Flask располагается за обратным прокси (NGINX) для SSL-терминации и защиты от медленных атак, а uWSGI/Gunicorn управляет пулом воркеров Python.
