@@ -1,15 +1,49 @@
 # Виртуальное окружение
 venv/
-__pycache__/
-*.pyc
-*.pyo
+env/
+ENV/
 
-# Docker
-.docker/
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
 
 # IDE
 .vscode/
 .idea/
+*.swp
+*.swo
+
+# Docker
+.docker/
+
+# Данные (опционально, если датасет большой)
+# data/*.csv
+
+# Модели (если не хочешь коммитить обученные модели)
+# models/*.joblib
+# models/*.pkl
+
+# Логи
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
 
 # Тестовые файлы
-test_request.json*
+test_request.json
+
+# MLflow
+mlruns/
