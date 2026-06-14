@@ -1,0 +1,15 @@
+# Виртуальное окружение
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Docker
+.docker/
+
+# IDE
+.vscode/
+.idea/
+
+# Тестовые файлы
+test_request.json*
