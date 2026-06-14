@@ -22,7 +22,6 @@ credit-default-ml/
 │   └── UCI_Credit_Card.csv        # Исходный датасет
 ├── tests/
 │   └── test_api.py                # Тесты API
-├── notebooks/                     # Jupyter notebooks (для EDA)
 ├── Dockerfile                     # Контейнеризация
 ├── docker-compose.yml             # Оркестрация с мониторингом
 ├── requirements.txt               # Зависимости Python
