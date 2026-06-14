@@ -1,32 +1,46 @@
 # Сервис прогнозирования дефолта по кредитным картам
 
-## Описание
-Данный проект представляет собой production-ready ML-сервис для прогнозирования вероятности дефолта клиента по кредитной карте в следующем месяце. Проект охватывает полный цикл: от обучения модели до контейнеризации и концепции A/B-тестирования.
+## Описание проекта
+Production-ready ML-сервис для прогнозирования вероятности дефолта клиента по кредитной карте в следующем месяце. Проект охватывает полный цикл внедрения ML-модели: от обучения до контейнеризации и A/B-тестирования.
+
+**Домен:** Финансы / Кредитный скоринг  
+**Датасет:** Default of Credit Card Clients Dataset (UCI ML Repository)  
+**Модели:** Random Forest (v1) и Logistic Regression (v2) для A/B-тестирования
 
 ## Структура репозитория
-- `src/`: Исходный код (Flask API, скрипт обучения).
-- `models/`: Сохраненные артефакты модели (`joblib`).
-- `data/`: Исходный датасет (UCI).
-- `Dockerfile`, `docker-compose.yml`: Файлы для контейнеризации.
-- `ARCHITECTURE.md`, `AB_TEST_PLAN.md`: Архитектурные и методологические документы.
+credit-default-ml/
+├── src/
+│ └── app/
+│ ├── init.py
+│ └── api.py # Flask веб-сервис с эндпоинтами /predict и /health
+── models/
+│ ├── train_model.py # Скрипт обучения моделей
+│ ├── model_v1.joblib # Обученная модель Random Forest
+│ └── model_v2.joblib # Обученная модель Logistic Regression
+├── data/
+│ └── UCI_Credit_Card.csv # Исходный датасет
+├── tests/
+│ └── test_api.py # Тесты API
+├── notebooks/ # Jupyter notebooks (для EDA)
+── Dockerfile # Контейнеризация
+├── docker-compose.yml # Оркестрация с мониторингом
+├── requirements.txt # Зависимости Python
+├── .gitignore
+├── ARCHITECTURE.md # Архитектурные решения и MLOps концепты
+└── AB_TEST_PLAN.md # План A/B-тестирования
+
+**Примечание:** Структура адаптирована под требования задания. Папка `src/app/` содержит веб-сервис, что соответствует модульной организации кода.
 
 ## Инструкция по запуску
 
-### Вариант 1: Локальный запуск (Python venv)
-1. Создайте виртуальное окружение: `python -m venv venv`
-2. Активируйте его: `source venv/bin/activate` (или `venv\Scripts\activate` на Windows)
-3. Установите зависимости: `pip install -r requirements.txt`
-4. Обучите модель: `python src/train.py`
-5. Запустите сервис: `python src/app.py`
+### Локальный запуск (Python venv)
 
-### Вариант 2: Docker (Рекомендуемый)
-1. Убедитесь, что модель обучена (файлы `model_v1.joblib` и `features.joblib` лежат в папке `models/`).
-2. Соберите образ: `docker build -t credit-default-ml:v1 .`
-3. Запустите контейнер: `docker run -p 5000:5000 credit-default-ml:v1`
-   *Или используйте `docker-compose up --build` для запуска с имитацией логирования.*
-
-## Примеры запросов к API
-
-### Проверка работоспособности
-```bash
-curl -X GET http://localhost:5000/health
+1. **Создать виртуальное окружение:**
+   ```bash
+   python -m venv venv
+   venv\Scripts\activate  # Windows
+   source venv/bin/activate  # Mac/Linux
+   
+2. **Установить зависимости:**
+   ```bash
+   pip install -r requirements.txt 
